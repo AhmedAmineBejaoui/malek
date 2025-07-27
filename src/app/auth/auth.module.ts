@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms'; // << important pour ngModel
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthComponent } from './auth.component';
 import { RouterModule } from '@angular/router'; // pour les routes enfants
 
@@ -9,7 +9,8 @@ import { RouterModule } from '@angular/router'; // pour les routes enfants
   imports: [
     CommonModule,
     FormsModule,
-    RouterModule // facultatif ici mais conseillé si tu as des routes
+    ReactiveFormsModule,
+    RouterModule
   ]
 })
 export class AuthModule {}

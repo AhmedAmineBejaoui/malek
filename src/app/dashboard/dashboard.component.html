@@ -1,4 +1,35 @@
 <div class="dashboard-container">
-  <h1>Bienvenue sur le tableau de bord</h1>
-  <p>Ceci est votre page d'accueil après connexion.</p>
+  <h2>Les demandes</h2>
+
+  <div class="filter-bar">
+    <label for="statut">Filtrer par statut</label>
+    <select id="statut" [(ngModel)]="filterStatus">
+      <option value="Tout">Tout</option>
+      <option value="En attente">En attente</option>
+      <option value="Acceptée">Acceptée</option>
+      <option value="Rejetée">Rejetée</option>
+    </select>
+  </div>
+
+  <table class="table-demandes">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Type</th>
+        <th>Objet</th>
+        <th>Date</th>
+        <th>Statut</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let d of filteredDemandes" (click)="showDetails(d)" style="cursor:pointer;">
+        <td>{{ d.id }}</td>
+        <td>{{ d.type }}</td>
+        <td>{{ d.objet }}</td>
+        <td>{{ d.date }}</td>
+        <td>{{ d.statut }}</td>
+      </tr>
+    </tbody>
+  </table>
 </div>
+
