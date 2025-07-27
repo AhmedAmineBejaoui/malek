@@ -4,7 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { LayoutComponent } from './layout/layout.component';
 import { DashboardComponent } from '../dashboard/dashboard.component';
 import { AjoutdemandeComponent } from './ajoutdemande/ajoutdemande.component';
-import { AuthGuard } from '../guards/auth.guard'; // Assure-toi que ce fichier existe
+import { AuthGuard } from '../guards/auth.guard';
 
 const routes: Routes = [
   {
@@ -14,7 +14,7 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'dashboard', component: DashboardComponent },
-      { path: 'ajoutdemande', component: AjoutdemandeComponent }
+      { path: 'ajouter-demande', component: AjoutdemandeComponent }
     ]
   }
 ];
