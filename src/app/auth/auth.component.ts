@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-auth',
@@ -7,91 +8,108 @@ import { Router } from '@angular/router';
   styleUrls: ['./auth.component.scss']
 })
 export class AuthComponent {
+  showLogin = true;
+  loginForm: FormGroup;
+  signupForm: FormGroup;
+  isLoading = false;
+  loginError = '';
+  signupError = '';
+  signupSuccess = false;
+  loginSuccess = false;
+  showLoginPassword = false;
+  showSignupPassword = false;
+  showSignupConfirmPassword = false;
 
-  // Login
-  loginEmail: string = '';
-  loginPassword: string = '';
-  loginError: string = '';
-  isLoading: boolean = false;
-  showLoginPassword: boolean = false; // pour afficher/masquer mot de passe login
+  constructor(private fb: FormBuilder, private router: Router) {
+    this.loginForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(8)]]
+    });
 
-  // Signup
-  showLogin: boolean = true; // true = formulaire login visible, false = signup visible
-  signup = {
-    prenom: '',
-    nom: '',
-    email: '',
-    telephone: '',
-    motdepasse: '',
-    confirmation: '',
-    conditions: false,
-  };
-  showSignupPassword: boolean = false;
-  showSignupConfirmPassword: boolean = false;
-  signupSuccess: boolean = false;
+    this.signupForm = this.fb.group({
+      prenom: ['', [Validators.required, Validators.minLength(2)]],
+      nom: ['', [Validators.required, Validators.minLength(2)]],
+      email: ['', [Validators.required, Validators.email]],
+      telephone: ['', [Validators.pattern(/^\+?\d{8,15}$/)]],
+      motdepasse: ['', [Validators.required, Validators.minLength(8)]],
+      confirmation: ['', [Validators.required, Validators.minLength(8)]],
+      conditions: [false, Validators.requiredTrue]
+    });
+  }
 
-  constructor(private router: Router) {}
-
-  // Toggle affichage mot de passe login
   toggleShowLoginPassword() {
     this.showLoginPassword = !this.showLoginPassword;
   }
 
-  // Toggle affichage mot de passe signup
   toggleShowSignupPassword() {
     this.showSignupPassword = !this.showSignupPassword;
   }
 
-  // Toggle affichage confirmation mot de passe signup
   toggleShowSignupConfirmPassword() {
     this.showSignupConfirmPassword = !this.showSignupConfirmPassword;
   }
 
-  // Changer entre login et signup
   toggleForm() {
     this.showLogin = !this.showLogin;
     this.loginError = '';
+    this.signupError = '';
     this.signupSuccess = false;
+    this.loginSuccess = false;
   }
 
-  // Gestion du login
   handleLogin() {
-  this.loginError = '';
-  this.isLoading = true;
-
-  setTimeout(() => {
-    // Simule une authentification réussie
-    if (this.loginEmail === 'test@test.com' && this.loginPassword === '1234') {
-      localStorage.setItem('token', 'votre_token');
-      localStorage.setItem('login', this.loginEmail);
-      this.router.navigate(['/admin']); // Redirection vers la main page
-    } else {
-      this.loginError = 'Email ou mot de passe incorrect';
+    this.loginError = '';
+    if (this.loginForm.invalid) {
+      this.loginForm.markAllAsTouched();
+      return;
     }
-    this.isLoading = false;
-  }, 1000);
-}
 
-  // Gestion du signup (à compléter selon besoins)
+    this.isLoading = true;
+    const { email, password } = this.loginForm.value;
+
+    setTimeout(() => {
+      const accountsJson = localStorage.getItem('accounts');
+      const accounts = accountsJson ? JSON.parse(accountsJson) : [];
+      const account = accounts.find((acc: any) => acc.email === email && acc.password === password);
+      if (account) {
+        localStorage.setItem('token', 'fake_token');
+        localStorage.setItem('login', email);
+        this.loginSuccess = true;
+        setTimeout(() => {
+          this.router.navigate(['/dashboard']);
+          this.loginSuccess = false;
+        }, 1500);
+      } else {
+        this.loginError = 'Email ou mot de passe incorrect';
+      }
+      this.isLoading = false;
+    }, 1000);
+  }
+
   handleSignup() {
-    if (
-      !this.signup.prenom ||
-      !this.signup.nom ||
-      !this.signup.email ||
-      !this.signup.telephone ||
-      !this.signup.motdepasse ||
-      !this.signup.confirmation ||
-      !this.signup.conditions
-    ) {
-      alert('Veuillez remplir tous les champs et accepter les conditions.');
-      return;
-    }
-    if (this.signup.motdepasse !== this.signup.confirmation) {
-      alert('Les mots de passe ne correspondent pas.');
+    this.signupError = '';
+    if (this.signupForm.invalid ||
+        this.signupForm.value.motdepasse !== this.signupForm.value.confirmation) {
+      this.signupForm.markAllAsTouched();
       return;
     }
 
-    // Ici tu peux ajouter un appel API réel
+    const accountsJson = localStorage.getItem('accounts');
+    const accounts = accountsJson ? JSON.parse(accountsJson) : [];
+    if (accounts.some((acc: any) => acc.email === this.signupForm.value.email)) {
+      this.signupError = 'Un compte avec cet email existe déjà';
+      return;
+    }
+
+    accounts.push({
+      prenom: this.signupForm.value.prenom,
+      nom: this.signupForm.value.nom,
+      email: this.signupForm.value.email,
+      telephone: this.signupForm.value.telephone,
+      password: this.signupForm.value.motdepasse
+    });
+    localStorage.setItem('accounts', JSON.stringify(accounts));
+
     this.signupSuccess = true;
     setTimeout(() => {
       this.toggleForm();
@@ -99,3 +117,4 @@ export class AuthComponent {
     }, 3000);
   }
 }
+
