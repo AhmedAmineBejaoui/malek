@@ -1,1 +1,39 @@
-<p>ajoutdemande works!</p>
+<div class="ajout-container">
+  <h2>Nouvelle Demande</h2>
+
+  <form [formGroup]="demandeForm" (ngSubmit)="envoyer()">
+    <div class="form-group">
+      <label>Type</label>
+      <select formControlName="type">
+        <option value="" disabled>-- Choisir --</option>
+        <option *ngFor="let t of types" [value]="t">{{ t }}</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Sous-type</label>
+      <select formControlName="sousType">
+        <option value="" disabled>-- Choisir --</option>
+        <option *ngFor="let st of sousTypes" [value]="st">{{ st }}</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Carte</label>
+      <select formControlName="carte">
+        <option value="" disabled>-- Choisir --</option>
+        <option *ngFor="let c of cartes" [value]="c">{{ c }}</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Description</label>
+      <textarea formControlName="description" rows="4"></textarea>
+    </div>
+
+    <button type="submit">Envoyer</button>
+
+    <div class="msg-success" *ngIf="success">Demande envoyée avec succès !</div>
+  </form>
+</div>
+
