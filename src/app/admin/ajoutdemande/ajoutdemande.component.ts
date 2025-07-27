@@ -29,10 +29,12 @@ export class AjoutdemandeComponent {
       return;
     }
 
+
     const resume = JSON.stringify(this.demandeForm.value, null, 2);
     console.log('Envoi mail simule:', resume);
 
     this.success = true;
     setTimeout(() => this.success = false, 3000);
+
   }
 }

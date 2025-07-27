@@ -13,6 +13,7 @@ export class AuthComponent {
   signupForm: FormGroup;
   isLoading = false;
   loginError = '';
+
   loginSuccess = false;
   signupSuccess = false;
   showLoginPassword = false;
@@ -36,6 +37,7 @@ export class AuthComponent {
     });
   }
 
+
   toggleShowLoginPassword() {
     this.showLoginPassword = !this.showLoginPassword;
   }
@@ -52,6 +54,7 @@ export class AuthComponent {
     this.showLogin = !this.showLogin;
     this.loginError = '';
     this.signupSuccess = false;
+    this.loginSuccess = false;
   }
 
   handleLogin() {
@@ -68,11 +71,13 @@ export class AuthComponent {
       if (email === 'test@test.com' && password === '1234') {
         localStorage.setItem('token', 'fake_token');
         localStorage.setItem('login', email);
+
         this.loginSuccess = true;
         setTimeout(() => {
           this.loginSuccess = false;
           this.router.navigate(['/dashboard']);
         }, 1000);
+
       } else {
         this.loginError = 'Email ou mot de passe incorrect';
       }
