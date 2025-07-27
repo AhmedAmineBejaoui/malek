@@ -108,6 +108,10 @@
   margin-top: 64px; // correspond à la hauteur du header
 }
 
+.main-content.auth-route {
+  margin-top: 0;
+}
+
 .app-sidebar {
   width: var(--sidebar-width);
   background: white;

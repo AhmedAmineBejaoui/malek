@@ -4,7 +4,7 @@ import { LayoutComponent } from './layout/layout.component';
 import { DashboardComponent } from '../dashboard/dashboard.component';
 import { AjoutdemandeComponent } from './ajoutdemande/ajoutdemande.component';
 import { AdminRoutingModule } from './admin-routing.module';
-import { RouterModule } from '@angular/router'; // ✅ AJOUT IMPORTANT
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -14,7 +14,7 @@ import { RouterModule } from '@angular/router'; // ✅ AJOUT IMPORTANT
   ],
   imports: [
     CommonModule,
-    RouterModule, // ✅ AJOUTÉ ICI
+    RouterModule,
     AdminRoutingModule
   ]
 })
