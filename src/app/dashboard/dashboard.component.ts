@@ -22,9 +22,6 @@ export class DashboardComponent {
   ];
 
 
-  selectedDemande: Demande | null = null;
-
-
   get filteredDemandes(): Demande[] {
     if (this.filterStatus === 'Tout') {
       return this.demandes;
@@ -34,11 +31,7 @@ export class DashboardComponent {
 
   showDetails(d: Demande) {
 
-    this.selectedDemande = d;
-  }
-
-  closeDetails() {
-    this.selectedDemande = null;
+    alert(`Détails de ${d.id}\nType: ${d.type}\nObjet: ${d.objet}\nStatut: ${d.statut}`);
 
   }
 }

@@ -18,13 +18,6 @@
     border-radius: 4px;
   }
 
-
-  .error {
-    color: #e53e3e;
-    font-size: 0.85rem;
-    margin-top: 0.25rem;
-  }
-
 }
 
 button {
@@ -39,5 +32,12 @@ button {
 .msg-success {
   margin-top: 1rem;
   color: green;
+}
+
+
+.error {
+  color: #e53935;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
 }
 

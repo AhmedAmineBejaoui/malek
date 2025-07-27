@@ -53,6 +53,9 @@
           </div>
 
           <div id="loginError" class="error" *ngIf="loginError">{{ loginError }}</div>
+          <div class="success-message" *ngIf="loginSuccess">
+            Connexion réussie ! Redirection...
+          </div>
 
           <div class="success-message" *ngIf="loginSuccess">Connexion réussie !</div>
 
@@ -207,6 +210,8 @@
           <div *ngIf="signupForm.get('conditions')?.touched && signupForm.get('conditions')?.invalid" class="error">
             Veuillez accepter les conditions d'utilisation.
           </div>
+
+          <div class="error" *ngIf="signupError">{{ signupError }}</div>
 
           <div
             id="successMessage"

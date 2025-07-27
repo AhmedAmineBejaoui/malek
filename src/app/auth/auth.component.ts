@@ -14,8 +14,9 @@ export class AuthComponent {
   isLoading = false;
   loginError = '';
 
-  loginSuccess = false;
+  signupError = '';
   signupSuccess = false;
+  loginSuccess = false;
   showLoginPassword = false;
   showSignupPassword = false;
   showSignupConfirmPassword = false;
@@ -53,6 +54,7 @@ export class AuthComponent {
   toggleForm() {
     this.showLogin = !this.showLogin;
     this.loginError = '';
+    this.signupError = '';
     this.signupSuccess = false;
     this.loginSuccess = false;
   }
@@ -68,15 +70,18 @@ export class AuthComponent {
     const { email, password } = this.loginForm.value;
 
     setTimeout(() => {
-      if (email === 'test@test.com' && password === '1234') {
+
+      const accountsJson = localStorage.getItem('accounts');
+      const accounts = accountsJson ? JSON.parse(accountsJson) : [];
+      const account = accounts.find((acc: any) => acc.email === email && acc.password === password);
+      if (account) {
         localStorage.setItem('token', 'fake_token');
         localStorage.setItem('login', email);
-
         this.loginSuccess = true;
         setTimeout(() => {
-          this.loginSuccess = false;
           this.router.navigate(['/dashboard']);
-        }, 1000);
+          this.loginSuccess = false;
+        }, 1500);
 
       } else {
         this.loginError = 'Email ou mot de passe incorrect';
@@ -86,11 +91,30 @@ export class AuthComponent {
   }
 
   handleSignup() {
+
+    this.signupError = '';
     if (this.signupForm.invalid ||
         this.signupForm.value.motdepasse !== this.signupForm.value.confirmation) {
       this.signupForm.markAllAsTouched();
       return;
     }
+
+    const accountsJson = localStorage.getItem('accounts');
+    const accounts = accountsJson ? JSON.parse(accountsJson) : [];
+    if (accounts.some((acc: any) => acc.email === this.signupForm.value.email)) {
+      this.signupError = 'Un compte avec cet email existe déjà';
+      return;
+    }
+
+    accounts.push({
+      prenom: this.signupForm.value.prenom,
+      nom: this.signupForm.value.nom,
+      email: this.signupForm.value.email,
+      telephone: this.signupForm.value.telephone,
+      password: this.signupForm.value.motdepasse
+    });
+    localStorage.setItem('accounts', JSON.stringify(accounts));
+
 
     this.signupSuccess = true;
     setTimeout(() => {
