@@ -8,7 +8,7 @@
     <div class="forms-container">
       <!-- Login Form -->
       <div *ngIf="showLogin" class="form-panel">
-        <form (ngSubmit)="handleLogin()" #loginFormRef="ngForm" novalidate>
+        <form [formGroup]="loginForm" (ngSubmit)="handleLogin()" novalidate>
           <div class="form-group">
             <label for="loginEmail">Adresse Email</label>
             <div class="input-icon">
@@ -16,14 +16,14 @@
                 type="email"
                 id="loginEmail"
                 name="loginEmail"
-                [(ngModel)]="loginEmail"
+                formControlName="email"
                 placeholder="votre.email@exemple.com"
                 required
                 email
               />
               <i class="bi bi-envelope-fill"></i>
             </div>
-            <div *ngIf="loginFormRef.submitted && loginFormRef.controls['loginEmail']?.invalid" class="error">
+            <div *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid" class="error">
               Veuillez saisir une adresse email valide.
             </div>
           </div>
@@ -35,7 +35,7 @@
                 [type]="showLoginPassword ? 'text' : 'password'"
                 id="loginPassword"
                 name="loginPassword"
-                [(ngModel)]="loginPassword"
+                formControlName="password"
                 placeholder="Votre mot de passe"
                 required
                 minlength="8"
@@ -47,12 +47,13 @@
                 style="cursor: pointer;"
               ></i>
             </div>
-            <div *ngIf="loginFormRef.submitted && loginFormRef.controls['loginPassword']?.invalid" class="error">
+            <div *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid" class="error">
               Le mot de passe doit contenir au moins 8 caractères.
             </div>
           </div>
 
           <div id="loginError" class="error" *ngIf="loginError">{{ loginError }}</div>
+          <div class="success-message" *ngIf="loginSuccess">Connexion réussie !</div>
 
           <button type="submit" class="auth-btn" id="loginBtn" [disabled]="isLoading">
             <i class="bi bi-box-arrow-in-right"></i>
@@ -68,7 +69,7 @@
 
       <!-- Signup Form -->
       <div *ngIf="!showLogin" class="form-panel">
-        <form (ngSubmit)="handleSignup()" #signupFormRef="ngForm" novalidate>
+        <form [formGroup]="signupForm" (ngSubmit)="handleSignup()" novalidate>
           <div class="form-row">
             <div class="form-group">
               <label for="prenom">Prénom</label>
@@ -77,14 +78,12 @@
                   type="text"
                   id="prenom"
                   name="prenom"
-                  [(ngModel)]="signup.prenom"
-                  required
-                  minlength="2"
+                  formControlName="prenom"
                   placeholder="Votre prénom"
                 />
                 <i class="bi bi-person"></i>
               </div>
-              <div *ngIf="signupFormRef.submitted && signupFormRef.controls['prenom']?.invalid" class="error">
+              <div *ngIf="signupForm.get('prenom')?.touched && signupForm.get('prenom')?.invalid" class="error">
                 Le prénom doit contenir au moins 2 caractères.
               </div>
             </div>
@@ -96,14 +95,12 @@
                   type="text"
                   id="nom"
                   name="nom"
-                  [(ngModel)]="signup.nom"
-                  required
-                  minlength="2"
+                  formControlName="nom"
                   placeholder="Votre nom"
                 />
                 <i class="bi bi-person-fill"></i>
               </div>
-              <div *ngIf="signupFormRef.submitted && signupFormRef.controls['nom']?.invalid" class="error">
+              <div *ngIf="signupForm.get('nom')?.touched && signupForm.get('nom')?.invalid" class="error">
                 Le nom doit contenir au moins 2 caractères.
               </div>
             </div>
@@ -117,14 +114,12 @@
                   type="email"
                   id="email"
                   name="email"
-                  [(ngModel)]="signup.email"
-                  required
-                  email
+                  formControlName="email"
                   placeholder="votre.email@exemple.com"
                 />
                 <i class="bi bi-envelope-fill"></i>
               </div>
-              <div *ngIf="signupFormRef.submitted && signupFormRef.controls['email']?.invalid" class="error">
+              <div *ngIf="signupForm.get('email')?.touched && signupForm.get('email')?.invalid" class="error">
                 Adresse email invalide.
               </div>
             </div>
@@ -136,13 +131,13 @@
                   type="tel"
                   id="telephone"
                   name="telephone"
-                  [(ngModel)]="signup.telephone"
+                  formControlName="telephone"
                   pattern="^\+?\d{8,15}$"
                   placeholder="+216 XX XXX XXX"
                 />
                 <i class="bi bi-telephone-fill"></i>
               </div>
-              <div *ngIf="signupFormRef.submitted && signupFormRef.controls['telephone']?.invalid" class="error">
+              <div *ngIf="signupForm.get('telephone')?.touched && signupForm.get('telephone')?.invalid" class="error">
                 Numéro de téléphone invalide.
               </div>
             </div>
@@ -156,9 +151,7 @@
                   [type]="showSignupPassword ? 'text' : 'password'"
                   id="motdepasse"
                   name="motdepasse"
-                  [(ngModel)]="signup.motdepasse"
-                  required
-                  minlength="8"
+                  formControlName="motdepasse"
                   placeholder="Minimum 8 caractères"
                 />
                 <i
@@ -168,7 +161,7 @@
                   style="cursor: pointer;"
                 ></i>
               </div>
-              <div *ngIf="signupFormRef.submitted && signupFormRef.controls['motdepasse']?.invalid" class="error">
+              <div *ngIf="signupForm.get('motdepasse')?.touched && signupForm.get('motdepasse')?.invalid" class="error">
                 Mot de passe trop court (minimum 8 caractères).
               </div>
             </div>
@@ -180,9 +173,7 @@
                   [type]="showSignupConfirmPassword ? 'text' : 'password'"
                   id="confirmation"
                   name="confirmation"
-                  [(ngModel)]="signup.confirmation"
-                  required
-                  minlength="8"
+                  formControlName="confirmation"
                   placeholder="Confirmer votre mot de passe"
                 />
                 <i
@@ -192,7 +183,7 @@
                   style="cursor: pointer;"
                 ></i>
               </div>
-              <div *ngIf="signupFormRef.submitted && signup.confirmation !== signup.motdepasse" class="error">
+              <div *ngIf="signupForm.get('confirmation')?.touched && signupForm.value.confirmation !== signupForm.value.motdepasse" class="error">
                 Les mots de passe ne correspondent pas.
               </div>
             </div>
@@ -203,7 +194,7 @@
               type="checkbox"
               id="conditions"
               name="conditions"
-              [(ngModel)]="signup.conditions"
+              formControlName="conditions"
               required
             />
             <label for="conditions">
@@ -211,7 +202,7 @@
               <a href="#" target="_blank">politique de confidentialité</a>
             </label>
           </div>
-          <div *ngIf="signupFormRef.submitted && !signup.conditions" class="error">
+          <div *ngIf="signupForm.get('conditions')?.touched && signupForm.get('conditions')?.invalid" class="error">
             Veuillez accepter les conditions d'utilisation.
           </div>
 
