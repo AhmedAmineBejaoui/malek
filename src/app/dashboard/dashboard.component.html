@@ -33,3 +33,16 @@
   </table>
 </div>
 
+
+<div class="modal-backdrop" *ngIf="selectedDemande">
+  <div class="modal">
+    <h3>Détails de {{ selectedDemande?.id }}</h3>
+    <p><strong>Type:</strong> {{ selectedDemande?.type }}</p>
+    <p><strong>Objet:</strong> {{ selectedDemande?.objet }}</p>
+    <p><strong>Date:</strong> {{ selectedDemande?.date }}</p>
+    <p><strong>Statut:</strong> {{ selectedDemande?.statut }}</p>
+    <button (click)="closeDetails()">Fermer</button>
+  </div>
+</div>
+
+

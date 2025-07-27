@@ -30,12 +30,11 @@ export class AjoutdemandeComponent {
     }
 
 
-    const { type, sousType, carte, description } = this.demandeForm.value;
-    const message = `From: mokhtar.hammami@stb.com.tn\nTo: malekghrairi825@gmail.com\nSubject: Nouvelle demande STB\n\nType: ${type}\nSous-type: ${sousType}\nCarte: ${carte}\nDescription: ${description}`;
-    console.log('Envoi mail simule:\n' + message);
+    const resume = JSON.stringify(this.demandeForm.value, null, 2);
+    console.log('Envoi mail simule:', resume);
 
     this.success = true;
-    setTimeout(() => (this.success = false), 3000);
+    setTimeout(() => this.success = false, 3000);
 
   }
 }

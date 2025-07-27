@@ -13,10 +13,9 @@ export class AuthComponent {
   signupForm: FormGroup;
   isLoading = false;
   loginError = '';
-  signupSuccess = false;
 
   loginSuccess = false;
-
+  signupSuccess = false;
   showLoginPassword = false;
   showSignupPassword = false;
   showSignupConfirmPassword = false;
@@ -37,6 +36,7 @@ export class AuthComponent {
       conditions: [false, Validators.requiredTrue]
     });
   }
+
 
   toggleShowLoginPassword() {
     this.showLoginPassword = !this.showLoginPassword;
@@ -74,9 +74,9 @@ export class AuthComponent {
 
         this.loginSuccess = true;
         setTimeout(() => {
-          this.router.navigate(['/dashboard']);
           this.loginSuccess = false;
-        }, 1500);
+          this.router.navigate(['/dashboard']);
+        }, 1000);
 
       } else {
         this.loginError = 'Email ou mot de passe incorrect';

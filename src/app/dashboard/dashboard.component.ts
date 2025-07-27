@@ -21,6 +21,10 @@ export class DashboardComponent {
     { id: 'STB-003', type: 'Requête', objet: 'Mise à jour profil', date: '2025-07-03', statut: 'Rejetée' },
   ];
 
+
+  selectedDemande: Demande | null = null;
+
+
   get filteredDemandes(): Demande[] {
     if (this.filterStatus === 'Tout') {
       return this.demandes;
@@ -29,6 +33,12 @@ export class DashboardComponent {
   }
 
   showDetails(d: Demande) {
-    alert(`Détails de ${d.id}\nType: ${d.type}\nObjet: ${d.objet}\nStatut: ${d.statut}`);
+
+    this.selectedDemande = d;
+  }
+
+  closeDetails() {
+    this.selectedDemande = null;
+
   }
 }
