@@ -14,6 +14,9 @@ export class AuthComponent {
   isLoading = false;
   loginError = '';
   signupSuccess = false;
+
+  loginSuccess = false;
+
   showLoginPassword = false;
   showSignupPassword = false;
   showSignupConfirmPassword = false;
@@ -51,6 +54,7 @@ export class AuthComponent {
     this.showLogin = !this.showLogin;
     this.loginError = '';
     this.signupSuccess = false;
+    this.loginSuccess = false;
   }
 
   handleLogin() {
@@ -67,7 +71,13 @@ export class AuthComponent {
       if (email === 'test@test.com' && password === '1234') {
         localStorage.setItem('token', 'fake_token');
         localStorage.setItem('login', email);
-        this.router.navigate(['/dashboard']);
+
+        this.loginSuccess = true;
+        setTimeout(() => {
+          this.router.navigate(['/dashboard']);
+          this.loginSuccess = false;
+        }, 1500);
+
       } else {
         this.loginError = 'Email ou mot de passe incorrect';
       }

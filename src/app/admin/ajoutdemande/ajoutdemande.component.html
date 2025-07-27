@@ -8,6 +8,11 @@
         <option value="" disabled>-- Choisir --</option>
         <option *ngFor="let t of types" [value]="t">{{ t }}</option>
       </select>
+
+      <div class="error" *ngIf="demandeForm.get('type')?.touched && demandeForm.get('type')?.invalid">
+        Veuillez choisir un type.
+      </div>
+
     </div>
 
     <div class="form-group">
@@ -16,6 +21,11 @@
         <option value="" disabled>-- Choisir --</option>
         <option *ngFor="let st of sousTypes" [value]="st">{{ st }}</option>
       </select>
+
+      <div class="error" *ngIf="demandeForm.get('sousType')?.touched && demandeForm.get('sousType')?.invalid">
+        Veuillez sélectionner un sous-type.
+      </div>
+
     </div>
 
     <div class="form-group">
@@ -24,11 +34,21 @@
         <option value="" disabled>-- Choisir --</option>
         <option *ngFor="let c of cartes" [value]="c">{{ c }}</option>
       </select>
+
+      <div class="error" *ngIf="demandeForm.get('carte')?.touched && demandeForm.get('carte')?.invalid">
+        Veuillez choisir une carte.
+      </div>
+
     </div>
 
     <div class="form-group">
       <label>Description</label>
       <textarea formControlName="description" rows="4"></textarea>
+
+      <div class="error" *ngIf="demandeForm.get('description')?.touched && demandeForm.get('description')?.invalid">
+        La description est requise.
+      </div>
+
     </div>
 
     <button type="submit">Envoyer</button>

@@ -16,7 +16,9 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'ajoutdemande',
+
+    path: 'ajouter-demande',
+
     component: AjoutdemandeComponent,
     canActivate: [AuthGuard]
   },
