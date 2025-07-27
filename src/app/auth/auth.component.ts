@@ -13,6 +13,7 @@ export class AuthComponent {
   signupForm: FormGroup;
   isLoading = false;
   loginError = '';
+
   signupError = '';
   signupSuccess = false;
   loginSuccess = false;
@@ -36,6 +37,7 @@ export class AuthComponent {
       conditions: [false, Validators.requiredTrue]
     });
   }
+
 
   toggleShowLoginPassword() {
     this.showLoginPassword = !this.showLoginPassword;
@@ -68,6 +70,7 @@ export class AuthComponent {
     const { email, password } = this.loginForm.value;
 
     setTimeout(() => {
+
       const accountsJson = localStorage.getItem('accounts');
       const accounts = accountsJson ? JSON.parse(accountsJson) : [];
       const account = accounts.find((acc: any) => acc.email === email && acc.password === password);
@@ -79,6 +82,7 @@ export class AuthComponent {
           this.router.navigate(['/dashboard']);
           this.loginSuccess = false;
         }, 1500);
+
       } else {
         this.loginError = 'Email ou mot de passe incorrect';
       }
@@ -87,6 +91,7 @@ export class AuthComponent {
   }
 
   handleSignup() {
+
     this.signupError = '';
     if (this.signupForm.invalid ||
         this.signupForm.value.motdepasse !== this.signupForm.value.confirmation) {
@@ -109,6 +114,7 @@ export class AuthComponent {
       password: this.signupForm.value.motdepasse
     });
     localStorage.setItem('accounts', JSON.stringify(accounts));
+
 
     this.signupSuccess = true;
     setTimeout(() => {

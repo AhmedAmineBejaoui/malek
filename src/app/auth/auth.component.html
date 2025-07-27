@@ -57,6 +57,9 @@
             Connexion réussie ! Redirection...
           </div>
 
+          <div class="success-message" *ngIf="loginSuccess">Connexion réussie !</div>
+
+
           <button type="submit" class="auth-btn" id="loginBtn" [disabled]="isLoading">
             <i class="bi bi-box-arrow-in-right"></i>
             Se connecter
