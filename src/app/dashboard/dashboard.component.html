@@ -39,3 +39,14 @@
   </table>
 </div>
 
+<div *ngIf="selected" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+  <div class="bg-white rounded-lg p-6 w-80">
+    <h3 class="text-lg font-semibold mb-2">{{ selected.type }}</h3>
+    <p><strong>ID:</strong> {{ selected.id }}</p>
+    <p><strong>Objet:</strong> {{ selected.objet }}</p>
+    <p><strong>Date:</strong> {{ selected.date }}</p>
+    <p><strong>Statut:</strong> {{ selected.statut }}</p>
+    <button class="mt-4 px-4 py-2 bg-blue-600 text-white rounded" (click)="closeDetails()">Fermer</button>
+  </div>
+</div>
+

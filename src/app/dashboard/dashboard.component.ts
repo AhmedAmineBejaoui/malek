@@ -22,6 +22,9 @@ export class DashboardComponent {
   ];
 
 
+  selected: Demande | null = null;
+
+
   get filteredDemandes(): Demande[] {
     if (this.filterStatus === 'Tout') {
       return this.demandes;
@@ -31,7 +34,11 @@ export class DashboardComponent {
 
   showDetails(d: Demande) {
 
-    alert(`Détails de ${d.id}\nType: ${d.type}\nObjet: ${d.objet}\nStatut: ${d.statut}`);
+    this.selected = d;
+  }
+
+  closeDetails() {
+    this.selected = null;
 
   }
 }
