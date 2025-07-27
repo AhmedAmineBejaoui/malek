@@ -10,15 +10,16 @@ export class AjoutdemandeComponent {
   demandeForm: FormGroup;
   success = false;
 
-  types = ['Support', 'Requête'];
-  sousTypes = ['Changement carte', 'Carte perdue'];
-  cartes = ['Visa', 'Master Card'];
+
+  types = ['Changement carte', 'Carte perdue'];
+  sousTypes = ['Visa', 'Master Card'];
+
 
   constructor(private fb: FormBuilder) {
     this.demandeForm = this.fb.group({
       type: ['', Validators.required],
       sousType: ['', Validators.required],
-      carte: ['', Validators.required],
+
       description: ['', Validators.required]
     });
   }
@@ -30,8 +31,9 @@ export class AjoutdemandeComponent {
     }
 
 
-    const { type, sousType, carte, description } = this.demandeForm.value;
-    const message = `From: mokhtar.hammami@stb.com.tn\nTo: malekghrairi825@gmail.com\nSubject: Nouvelle demande STB\n\nType: ${type}\nSous-type: ${sousType}\nCarte: ${carte}\nDescription: ${description}`;
+    const { type, sousType, description } = this.demandeForm.value;
+    const message = `From: mokhtar.hammami@stb.com.tn\nTo: malekghrairi825@gmail.com\nSubject: Nouvelle demande STB\n\nType: ${type}\nSous-type: ${sousType}\nDescription: ${description}`;
+
     console.log('Envoi mail simule:\n' + message);
 
     this.success = true;

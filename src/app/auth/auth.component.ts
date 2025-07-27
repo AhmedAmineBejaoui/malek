@@ -21,6 +21,7 @@ export class AuthComponent {
   showSignupPassword = false;
   showSignupConfirmPassword = false;
 
+
   constructor(private fb: FormBuilder, private router: Router) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
