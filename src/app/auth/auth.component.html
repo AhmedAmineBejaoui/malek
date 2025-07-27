@@ -1,0 +1,240 @@
+<div class="auth-wrapper">
+  <div class="auth-glass-card">
+    <div class="logo-section">
+      <h2 class="title">STB BANK</h2>
+      <img src="assets/logo.jpg" alt="STB Logo" class="logo" />
+    </div>
+
+    <div class="forms-container">
+      <!-- Login Form -->
+      <div *ngIf="showLogin" class="form-panel">
+        <form (ngSubmit)="handleLogin()" #loginFormRef="ngForm" novalidate>
+          <div class="form-group">
+            <label for="loginEmail">Adresse Email</label>
+            <div class="input-icon">
+              <input
+                type="email"
+                id="loginEmail"
+                name="loginEmail"
+                [(ngModel)]="loginEmail"
+                placeholder="votre.email@exemple.com"
+                required
+                email
+              />
+              <i class="bi bi-envelope-fill"></i>
+            </div>
+            <div *ngIf="loginFormRef.submitted && loginFormRef.controls['loginEmail']?.invalid" class="error">
+              Veuillez saisir une adresse email valide.
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="loginPassword">Mot de passe</label>
+            <div class="input-icon">
+              <input
+                [type]="showLoginPassword ? 'text' : 'password'"
+                id="loginPassword"
+                name="loginPassword"
+                [(ngModel)]="loginPassword"
+                placeholder="Votre mot de passe"
+                required
+                minlength="8"
+              />
+              <i
+                class="bi"
+                [ngClass]="showLoginPassword ? 'bi-eye-slash-fill' : 'bi-eye-fill'"
+                (click)="showLoginPassword = !showLoginPassword"
+                style="cursor: pointer;"
+              ></i>
+            </div>
+            <div *ngIf="loginFormRef.submitted && loginFormRef.controls['loginPassword']?.invalid" class="error">
+              Le mot de passe doit contenir au moins 8 caractères.
+            </div>
+          </div>
+
+          <div id="loginError" class="error" *ngIf="loginError">{{ loginError }}</div>
+
+          <button type="submit" class="auth-btn" id="loginBtn" [disabled]="isLoading">
+            <i class="bi bi-box-arrow-in-right"></i>
+            Se connecter
+          </button>
+        </form>
+
+        <div class="switch-form">
+          Vous n'avez pas de compte ?
+          <a (click)="toggleForm()" style="cursor:pointer;">Créer un compte</a>
+        </div>
+      </div>
+
+      <!-- Signup Form -->
+      <div *ngIf="!showLogin" class="form-panel">
+        <form (ngSubmit)="handleSignup()" #signupFormRef="ngForm" novalidate>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="prenom">Prénom</label>
+              <div class="input-icon">
+                <input
+                  type="text"
+                  id="prenom"
+                  name="prenom"
+                  [(ngModel)]="signup.prenom"
+                  required
+                  minlength="2"
+                  placeholder="Votre prénom"
+                />
+                <i class="bi bi-person"></i>
+              </div>
+              <div *ngIf="signupFormRef.submitted && signupFormRef.controls['prenom']?.invalid" class="error">
+                Le prénom doit contenir au moins 2 caractères.
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="nom">Nom de famille</label>
+              <div class="input-icon">
+                <input
+                  type="text"
+                  id="nom"
+                  name="nom"
+                  [(ngModel)]="signup.nom"
+                  required
+                  minlength="2"
+                  placeholder="Votre nom"
+                />
+                <i class="bi bi-person-fill"></i>
+              </div>
+              <div *ngIf="signupFormRef.submitted && signupFormRef.controls['nom']?.invalid" class="error">
+                Le nom doit contenir au moins 2 caractères.
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="email">Adresse Email</label>
+              <div class="input-icon">
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  [(ngModel)]="signup.email"
+                  required
+                  email
+                  placeholder="votre.email@exemple.com"
+                />
+                <i class="bi bi-envelope-fill"></i>
+              </div>
+              <div *ngIf="signupFormRef.submitted && signupFormRef.controls['email']?.invalid" class="error">
+                Adresse email invalide.
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="telephone">Téléphone</label>
+              <div class="input-icon">
+                <input
+                  type="tel"
+                  id="telephone"
+                  name="telephone"
+                  [(ngModel)]="signup.telephone"
+                  pattern="^\+?\d{8,15}$"
+                  placeholder="+216 XX XXX XXX"
+                />
+                <i class="bi bi-telephone-fill"></i>
+              </div>
+              <div *ngIf="signupFormRef.submitted && signupFormRef.controls['telephone']?.invalid" class="error">
+                Numéro de téléphone invalide.
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="motdepasse">Mot de passe</label>
+              <div class="input-icon">
+                <input
+                  [type]="showSignupPassword ? 'text' : 'password'"
+                  id="motdepasse"
+                  name="motdepasse"
+                  [(ngModel)]="signup.motdepasse"
+                  required
+                  minlength="8"
+                  placeholder="Minimum 8 caractères"
+                />
+                <i
+                  class="bi"
+                  [ngClass]="showSignupPassword ? 'bi-eye-slash-fill' : 'bi-eye-fill'"
+                  (click)="toggleShowSignupPassword()"
+                  style="cursor: pointer;"
+                ></i>
+              </div>
+              <div *ngIf="signupFormRef.submitted && signupFormRef.controls['motdepasse']?.invalid" class="error">
+                Mot de passe trop court (minimum 8 caractères).
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="confirmation">Confirmer le mot de passe</label>
+              <div class="input-icon">
+                <input
+                  [type]="showSignupConfirmPassword ? 'text' : 'password'"
+                  id="confirmation"
+                  name="confirmation"
+                  [(ngModel)]="signup.confirmation"
+                  required
+                  minlength="8"
+                  placeholder="Confirmer votre mot de passe"
+                />
+                <i
+                  class="bi"
+                  [ngClass]="showSignupConfirmPassword ? 'bi-eye-slash-fill' : 'bi-eye-fill'"
+                  (click)="toggleShowSignupConfirmPassword()"
+                  style="cursor: pointer;"
+                ></i>
+              </div>
+              <div *ngIf="signupFormRef.submitted && signup.confirmation !== signup.motdepasse" class="error">
+                Les mots de passe ne correspondent pas.
+              </div>
+            </div>
+          </div>
+
+          <div class="checkbox-group">
+            <input
+              type="checkbox"
+              id="conditions"
+              name="conditions"
+              [(ngModel)]="signup.conditions"
+              required
+            />
+            <label for="conditions">
+              J'accepte les <a href="#" target="_blank">conditions d'utilisation</a> et la
+              <a href="#" target="_blank">politique de confidentialité</a>
+            </label>
+          </div>
+          <div *ngIf="signupFormRef.submitted && !signup.conditions" class="error">
+            Veuillez accepter les conditions d'utilisation.
+          </div>
+
+          <div
+            id="successMessage"
+            class="success-message"
+            *ngIf="signupSuccess"
+            style="margin-top: 1rem; color: green;"
+          >
+            Compte créé avec succès ! Redirection vers la page de connexion...
+          </div>
+
+          <button type="submit" class="auth-btn" id="signupBtn" [disabled]="isLoading">
+            <i class="bi bi-person-plus"></i>
+            Créer mon compte
+          </button>
+        </form>
+
+        <div class="switch-form">
+          Vous avez déjà un compte ?
+          <a (click)="toggleForm()" style="cursor:pointer;">Se connecter</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
