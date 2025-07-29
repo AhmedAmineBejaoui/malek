@@ -6,6 +6,31 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
 
+## Backend server
+
+This repository now includes a minimal Express backend that exposes REST APIs and connects to a SQL Server database. The SQL schema and example data can be found in `server/schema.sql`.
+
+1. Install dependencies:
+
+   ```bash
+   npm install
+   ```
+
+2. Configure the database connection by creating a `.env` file at the project root:
+
+   ```env
+   DB_USER=sa
+   DB_PASSWORD=password
+   DB_SERVER=localhost
+   DB_DATABASE=stb
+   ```
+
+3. Start the backend:
+
+   ```bash
+   npm run server
+   ```
+
 ## Code scaffolding
 
 Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
