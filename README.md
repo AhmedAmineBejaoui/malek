@@ -6,6 +6,32 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
 
+## Backend server
+
+The backend is now implemented with **ASP.NET Core Web API**. A SQL Server schema is provided at `Backend/Database/schema.sql`.
+
+1. Install Node dependencies for the Angular frontend:
+
+   ```bash
+   npm install
+   ```
+
+2. Configure the database connection in `Backend/appsettings.json` if needed. By default it uses:
+
+   ```json
+   {
+     "ConnectionStrings": {
+       "DefaultConnection": "Server=localhost;Database=stb;User Id=sa;Password=password;TrustServerCertificate=True;"
+     }
+   }
+   ```
+
+3. Start the backend API:
+
+   ```bash
+   npm run server
+   ```
+
 ## Code scaffolding
 
 Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
